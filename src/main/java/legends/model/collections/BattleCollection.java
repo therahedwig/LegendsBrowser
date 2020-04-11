@@ -32,6 +32,23 @@ public class BattleCollection extends EventCollection {
 
 	@Xml("outcome")
 	private String outcome;
+	
+	@Xml("individual_merc")
+	private boolean individualMercenary; // Unsure
+	@Xml("company_merc")
+	private boolean companyMercenary; // Unsure
+	@Xml("attacking_merc_enid")
+	private int attackingMercenaryEntityId = -1; // Used for hiring attackers
+	@Xml("defending_merc_enid")
+	private int defendingMercenaryEntityId = -1; // Used for hiring defenders
+	@Xml("a_support_merc_enid")
+	private int supportingMercenaryEntityId = -1; //Used for hiring scouts.
+	@Xml("a_support_merc_hfid")
+	private int supportingMercenaryHfId = -1; // Unsure
+	@Xml("attacking_squad_animated")
+	private boolean attackingSquadAnimated; // Whether the attackers were undead.
+	@Xml("defending_squad_animated")
+	private boolean defendingSquadAnimated; // Whether the defenders were undead.
 
 	public String getName() {
 		return EventHelper.name(name);

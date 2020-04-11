@@ -61,6 +61,10 @@ private int targetHfId = -1;
 	private int confessedAfterApbArrestEnId = -1;
 	@Xml("interrogator_hfid")
 	private int interrogatorHfId = -1;
+	@Xml("beating")
+	private boolean beating;
+	@Xml("hammerstrokes")
+	private int hammerStrokes = -1;
 
 	@Override
 	public boolean isRelatedToEntity(int entityId) {
@@ -121,6 +125,22 @@ private int targetHfId = -1;
 
 	public void setExiled(boolean exiled) {
 		this.exiled = exiled;
+	}
+	
+	public boolean beating() {
+		return beating;
+	}
+
+	public void setBeating(boolean beating) {
+		this.beating = beating;
+	}
+	
+	public int hammerStrokes() {
+		return hammerStrokes;
+	}
+
+	public void setHammerStrokes(int hammerStrokes) {
+		this.hammerStrokes = hammerStrokes;
 	}
 
 	public boolean isSurveiledContact() {
@@ -240,12 +260,15 @@ private int targetHfId = -1;
 		String convicted = World.getHistoricalFigure(convictedHfId).getLink();
 		String convicter = World.getEntity(convicterEnId).getLink();
 		String penalty = "";
+		
+		if (hammerStrokes != -1)
+			penalty = String.format(" sentenced to %d hammerstrokes", hammerStrokes);
 		if (deathPenalty)
-			penalty = " and sentenced to death";
+			penalty += " and sentenced to death";
 		else if (exiled)
-			penalty = " and exiled";
+			penalty += " and exiled";
 		else if (prisonMonths != -1)
-			penalty = String.format(" and imprisoned for a term of %d years", prisonMonths / 12);
+			penalty += String.format(" and imprisoned for a term of %d years", prisonMonths / 12);
 		String surveil = "";
 		if (surveiledConvicted)
 			surveil = "due to ongoing surveillance as the plot unfolded, ";

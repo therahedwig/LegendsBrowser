@@ -15,6 +15,12 @@ public class MerchantEvent extends Event implements EntityRelatedEvent, SiteRela
 	private int destinationId = -1;
 	@Xml("site_id,site")
 	private int siteId = -1;
+	@Xml("all_dead")
+	private boolean allDead;
+	@Xml("hardship")
+	private boolean hardship;
+	@Xml("lost_value")
+	private boolean lostValue;
 
 	public int getSourceId() {
 		return sourceId;
@@ -49,13 +55,53 @@ public class MerchantEvent extends Event implements EntityRelatedEvent, SiteRela
 	public boolean isRelatedToSite(int siteId) {
 		return this.siteId == siteId;
 	}
+	
+	public boolean allDead() {
+		return allDead;
+	}
+	
+	public void setAllDead(boolean allDead) {
+		this.allDead = allDead;
+	}
+	
+	
+	public boolean hardship() {
+		return hardship;
+	}
+	
+	public void setHardship(boolean hardship) {
+		this.hardship = hardship;
+	}
+	
+	public boolean lostValue() {
+		return lostValue;
+	}
+	
+	public void setLostValue(boolean lostValue) {
+		this.lostValue = lostValue;
+	}
 
 	@Override
 	public String getShortDescription() {
 		final String site = World.getSite(siteId).getLink();
 		final String source = World.getEntity(sourceId).getLink();
 		final String destination = World.getEntity(destinationId).getLink();
-		return "merchants from " + source + " visited " + destination + " at " + site;
+		
+		String result = String.format("Merchants from %s visited %s at %s", source, destination, site);
+		
+		if (allDead) {
+			result += " and were never heard from again";
+		} else if (hardship) {
+			result += " and suffered great hardships";
+		}
+		
+		result += ".";
+		
+		if (lostValue) {
+			result +=" They reported irregularities with their goods.";
+		}
+		
+		return result;
 	}
 
 }

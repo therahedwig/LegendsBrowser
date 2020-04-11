@@ -19,6 +19,8 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 	int siteCivId = -1;
 	@Xml("site_id")
 	int siteId = -1;
+	@Xml("no_defeat_mention")
+	boolean noDefeatMention;
 
 	public int getAttackerCivId() {
 		return attackerCivId;
@@ -78,6 +80,11 @@ public class DestroyedSiteEvent extends Event implements EntityRelatedEvent, Sit
 		String attacker = World.getEntity(attackerCivId).getLink();
 		String defender = World.getEntity(defenderCivId).getLink();
 		String site = World.getSite(siteId).getLink();
-		return attacker + " defeated " + defender + " and destroyed " + site;
+		
+		if (noDefeatMention) {
+			return String.format("%s destroyed %s", attacker, site);
+		} else {
+			return String.format("%s defeated %s and destroyed %s", attacker, defender, site);
+		}
 	}
 }
